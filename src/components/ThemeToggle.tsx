@@ -1,15 +1,15 @@
 // src/components/ThemeToggle.tsx
-
-import React, { useContext } from 'react';
-import { ThemeContext } from '../context/ThemeContext';
+import React from 'react';
+import { useTheme } from '../context/ThemeContext';
 
 const ThemeToggle: React.FC = () => {
-    const { theme, toggleTheme } = useContext(ThemeContext);
+    const { theme, toggleTheme } = useTheme();
 
     return (
         <button
             onClick={toggleTheme}
             className="p-2 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            aria-label="Toggle Theme"
         >
             {theme === 'light' ? (
                 <svg className="w-6 h-6 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">

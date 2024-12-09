@@ -1,39 +1,47 @@
 // src/context/ThemeContext.tsx
+"use client"; // Ajout de cette directive pour activer le mode client
 
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 
-interface ThemeContextProps {
-    theme: string;
+type ThemeContextType = {
+    theme: 'light' | 'dark';
     toggleTheme: () => void;
-}
+};
 
-export const ThemeContext = createContext<ThemeContextProps>({
+const ThemeContext = createContext<ThemeContextType>({
     theme: 'light',
     toggleTheme: () => {},
 });
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [theme, setTheme] = useState<string>(
-        localStorage.getItem('theme') ||
-        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
-    );
+    const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
     useEffect(() => {
-        const root = window.document.documentElement;
-        if (theme === 'dark') {
-            root.classList.add('dark');
-            root.classList.remove('light');
+        // Charger le thème depuis le localStorage
+        const savedTheme = localStorage.getItem('theme') as 'light' | 'dark';
+        if (savedTheme) {
+            setTheme(savedTheme);
+            document.documentElement.classList.add(savedTheme);
         } else {
-            root.classList.add('light');
-            root.classList.remove('dark');
+            // Activer le thème système par défaut
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            setTheme(prefersDark ? 'dark' : 'light');
         }
-
-        localStorage.setItem('theme', theme);
-    }, [theme]);
+    }, []);
 
     const toggleTheme = () => {
-        setTheme(theme === 'light' ? 'dark' : 'light');
+        const newTheme = theme === 'light' ? 'dark' : 'light';
+        setTheme(newTheme);
+        localStorage.setItem('theme', newTheme);
+        document.documentElement.classList.remove('light', 'dark');
+        document.documentElement.classList.add(newTheme);
     };
 
-    return <ThemeContext.Provider value={{ theme, toggleTheme }}>{children}</ThemeContext.Provider>;
+    return (
+        <ThemeContext.Provider value={{ theme, toggleTheme }}>
+            {children}
+        </ThemeContext.Provider>
+    );
 };
+
+export const useTheme = () => useContext(ThemeContext);

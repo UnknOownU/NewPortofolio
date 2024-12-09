@@ -1,24 +1,23 @@
-// src/components/ProjectsSection.tsx
-
 import React from 'react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
-const ProjectsSection = () => {
+const ProjectsSection: React.FC = () => {
     const projects = [
         {
             title: 'Projet 1 : Bot Discord',
             description: 'Un bot Discord pour faciliter l\'onboarding et la gestion des membres.',
-            detailsLink: '#project-1'
+            detailsLink: '/projects/bot-discord', // URL interne
         },
         {
             title: 'Projet 2 : Application de Gestion',
             description: 'Une application de gestion de tâches développée avec React et Symfony.',
-            detailsLink: '#project-2'
+            detailsLink: '/projects/gestion-app', // URL interne
         },
         {
             title: 'Projet 3 : API RESTful',
             description: 'API RESTful construite avec Node.js et MongoDB pour un service de gestion des utilisateurs.',
-            detailsLink: '#project-3'
+            detailsLink: '/projects/api-restful', // URL interne
         },
     ];
 
@@ -45,12 +44,12 @@ const ProjectsSection = () => {
                             </p>
                         </div>
                         <div>
-                            <a
+                            <Link
                                 href={project.detailsLink}
-                                className="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition self-end"
+                                className="bg-indigo-600 tenpmnpm xt-white px-4 py-2 rounded-full hover:bg-indigo-700 transition self-end block text-center"
                             >
                                 En savoir plus
-                            </a>
+                            </Link>
                         </div>
                     </motion.div>
                 ))}

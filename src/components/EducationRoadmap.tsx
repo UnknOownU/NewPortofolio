@@ -1,13 +1,11 @@
-// src/components/EducationRoadmap.tsx
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import du composant
-import { faCheck } from '@fortawesome/free-solid-svg-icons'; // Import de l'icône checkmark
+import Link from 'next/link';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
 
-const EducationRoadmap = () => {
+const EducationRoadmap: React.FC = () => {
     const roadmapItems = [
         {
             year: '2023-2024',
@@ -38,7 +36,6 @@ const EducationRoadmap = () => {
         },
     ];
 
-    // Utilisation de useInView pour l'animation au scroll
     const [ref, inView] = useInView({
         triggerOnce: true,
         threshold: 0.1,
@@ -55,7 +52,6 @@ const EducationRoadmap = () => {
                 Mes Études
             </motion.h2>
             <div className="relative">
-                {/* Ligne verticale */}
                 <div className="absolute top-0 left-10 w-1 bg-indigo-600 h-full"></div>
                 {roadmapItems.map((item, index) => (
                     <motion.div
@@ -67,7 +63,6 @@ const EducationRoadmap = () => {
                         animate={inView ? { opacity: 1, y: 0 } : {}}
                         transition={{ duration: 0.5, delay: index * 0.2 }}
                     >
-                        {/* Point pour chaque étape */}
                         <div className="relative z-10 flex items-center justify-center">
                             {item.isCompleted ? (
                                 <div className="w-6 h-6 rounded-full bg-green-500 flex items-center justify-center">
@@ -79,8 +74,6 @@ const EducationRoadmap = () => {
                                 <div className="w-6 h-6 rounded-full bg-gray-400"></div>
                             )}
                         </div>
-
-                        {/* Contenu de chaque étape */}
                         <div className="ml-8 w-full bg-gray-200 dark:bg-gray-800 p-4 rounded-lg shadow-md">
                             <div className="text-indigo-600 dark:text-indigo-400 text-2xl font-bold mb-2">
                                 {item.year}
@@ -91,12 +84,10 @@ const EducationRoadmap = () => {
                             <p className="text-gray-800 dark:text-gray-300 text-sm mb-4">
                                 {item.description}
                             </p>
-                            {/* Bouton Voir plus */}
-                            <Link
-                                to={item.link}
-                                className="text-indigo-600 dark:text-indigo-400 hover:underline font-medium"
-                            >
-                                Voir plus &rarr;
+                            <Link href={item.link}>
+                                <span className="text-indigo-600 dark:text-indigo-400 hover:underline font-medium">
+                                    Voir plus &rarr;
+                                </span>
                             </Link>
                         </div>
                     </motion.div>
